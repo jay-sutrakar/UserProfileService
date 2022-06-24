@@ -4,10 +4,12 @@ import com.couchbase.client.java.*;
 import com.couchbase.client.java.kv.ExistsResult;
 import com.couchbase.client.java.kv.GetResult;
 import exception.CouchbaseException;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.adapter.rxjava.RxJava2Adapter;
 
 import static constants.Constant.*;
 import static reactor.adapter.rxjava.RxJava2Adapter.monoToSingle;
@@ -64,5 +66,18 @@ public class CouchbaseService implements UserRepositoryClient {
     @Override
     public Single<Boolean> exists(String id) {
         return monoToSingle(collection.exists(id).map(ExistsResult::exists));
+    }
+
+    @Override
+    public Single<Observable<JsonObject>> executeQuery(String query) {
+        return monoToSingle(scope.query(query)
+                .map(reactiveQueryResult -> reactiveQueryResult.rowsAs(JsonObject.class))
+                .map(RxJava2Adapter::fluxToObservable)
+                .doOnSuccess(res -> logger.info("logType=tracking | operation=query | context=couchbase | description=\"Successfully executed couchbase query\""))
+                .doOnError(error -> {
+                    logger.error("logType=error | operation=query | context=couchbase | errorClass={} | errorMessage={}", this.getClass().getName(), error.getMessage());
+                    throw new CouchbaseException(error.getMessage(), error);
+                }));
+
     }
 }

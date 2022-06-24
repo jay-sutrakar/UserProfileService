@@ -1,5 +1,6 @@
 package services;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.vertx.core.json.JsonObject;
 
@@ -13,4 +14,6 @@ public interface UserRepositoryClient {
     Single<JsonObject> get(String id);
 
     Single<Boolean> exists(String id);
+
+    Single<Observable<JsonObject>> executeQuery(String query);
 }
