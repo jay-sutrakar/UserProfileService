@@ -41,6 +41,7 @@ public class RequestHandler {
 
     public void register(RoutingContext rc) {
         User user = rc.body().asPojo(User.class);
+        //TODO : Need to add password encryption
         userService.registerUser(user.getUsername(), user).subscribe(res -> {
             rc.response().setStatusCode(HttpResponseStatus.OK.code()).end("Registration completed");
         }, error -> handleError(rc, error));
@@ -58,7 +59,7 @@ public class RequestHandler {
     }
 
     public void authenticate(RoutingContext rc) {
-
+        //TODO : Need to add user authentication
     }
 
     public void whoOwns(RoutingContext rc) {
