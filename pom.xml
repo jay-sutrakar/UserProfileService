@@ -10,7 +10,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <!-- vert.x properties -->
         <vertx.version>4.3.1</vertx.version>
-        <vertx.verticle>verticles.UserProfileVerticle</vertx.verticle>
+        <vertx.verticle>verticles.StartupVerticle</vertx.verticle>
         <!-- Maven plugins -->
         <vertx-maven-plugin.version>1.0.28</vertx-maven-plugin.version>
     </properties>
@@ -63,6 +63,15 @@
             <groupId>io.projectreactor.addons</groupId>
             <artifactId>reactor-adapter</artifactId>
             <version>3.4.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-config</artifactId>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>

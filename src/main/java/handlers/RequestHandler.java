@@ -14,7 +14,7 @@ import static constants.Constant.USERNAME;
 public class RequestHandler {
 
     private final Pattern validUserName = Pattern.compile("");
-    private final Pattern validEmail = Pattern.compile("");
+    private final Pattern validEmail = Pattern.compile("^(.+)@(.+)$");
 
     private final UserService userService;
 
